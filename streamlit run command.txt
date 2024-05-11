@@ -1,0 +1,1 @@
+streamlit run "C:\Users\skeme\OneDrive\Masaüstü\Multiple Disease Prediction\Multiple disease prediction.py"
