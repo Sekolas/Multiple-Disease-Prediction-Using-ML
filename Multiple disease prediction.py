@@ -6,10 +6,10 @@ Created on Sun May  5 23:06:46 2024
 """
 
 import pickle
+
+import lightgbm
 import streamlit as st
 from streamlit_option_menu import option_menu
-import lightgbm
-
 
 diabetes_model = pickle.load(open('C:/Users/skeme/OneDrive/Masaüstü/Multiple Disease Prediction/Saved MoDELS/diabetes_model.sav','rb'))
 
@@ -19,9 +19,9 @@ parkinsons_model = pickle.load(open('C:/Users/skeme/OneDrive/Masaüstü/Multiple
 
 Liver_model = pickle.load(open('C:/Users/skeme/OneDrive/Masaüstü/Multiple Disease Prediction/Saved MoDELS/liver_diseasemodel.sav','rb'))
 
-kidney_model = pickle.load(open('C:/Users/skeme/OneDrive/Masaüstü/Multiple Disease Prediction/Saved MoDELS/kidney_disease.sav','rb'))
+kidney_model = pickle.load(open('C:/Users/skeme/OneDrive/Masaüstü/Multiple Disease Prediction/Saved MoDELS/kidney2.sav','rb'))
 
-Thyroid_model = pickle.load(open('C:/Users/skeme/OneDrive/Masaüstü/Multiple Disease Prediction/Saved MoDELS/thryoid_model.sav','rb'))
+Thyroid_model = pickle.load(open('C:/Users/skeme/OneDrive/Masaüstü/Multiple Disease Prediction/Saved MoDELS/thyroid1.sav','rb'))
 
 
 
@@ -110,7 +110,7 @@ if selected == 'Heart Disease Prediction':
        age = st.text_input('Age')
 
    with col2:
-       sex = st.text_input('Sex')
+       sex = st.text_input('Sex : 1 male 0 female')
 
    with col3:
        cp = st.text_input('Chest Pain types')
@@ -179,66 +179,66 @@ if selected == "Parkinsons Prediction":
   # page title
     st.title("Parkinson's Disease Prediction using ML")
 
-    col1, col2, col3, col4, col5 = st.columns(5)
+    col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        fo = st.text_input('MDVP:Fo(Hz)')
+        fo = st.text_input('MDVP Fo(Hz)')
 
     with col2:
-        fhi = st.text_input('MDVP:Fhi(Hz)')
+        fhi = st.text_input('MDVP Fhi(Hz)')
 
     with col3:
-        flo = st.text_input('MDVP:Flo(Hz)')
+        flo = st.text_input('MDVP Flo(Hz)')
 
     with col4:
-        Jitter_percent = st.text_input('MDVP:Jitter(%)')
-
-    with col5:
-        Jitter_Abs = st.text_input('MDVP:Jitter(Abs)')
+        Jitter_percent = st.text_input('MDVP Jitter(%)')
 
     with col1:
-        RAP = st.text_input('MDVP:RAP')
+        Jitter_Abs = st.text_input('MDVP Jitter(Abs)')
 
     with col2:
-        PPQ = st.text_input('MDVP:PPQ')
+        RAP = st.text_input('MDVP RAP')
 
     with col3:
+        PPQ = st.text_input('MDVP PPQ')
+
+    with col4:
         DDP = st.text_input('Jitter:DDP')
 
-    with col4:
-        Shimmer = st.text_input('MDVP:Shimmer')
-
-    with col5:
-        Shimmer_dB = st.text_input('MDVP:Shimmer(dB)')
-
     with col1:
-        APQ3 = st.text_input('Shimmer:APQ3')
+        Shimmer = st.text_input('MDVP Shimmer')
 
     with col2:
-        APQ5 = st.text_input('Shimmer:APQ5')
+        Shimmer_dB = st.text_input('MDVP Shimmer(dB)')
 
     with col3:
-        APQ = st.text_input('MDVP:APQ')
+        APQ3 = st.text_input('Shimmer APQ3')
 
     with col4:
-        DDA = st.text_input('Shimmer:DDA')
+        APQ5 = st.text_input('Shimmer APQ5')
 
-    with col5:
+    with col1:
+        APQ = st.text_input('MDVP APQ')
+
+    with col2:
+        DDA = st.text_input('Shimmer DDA')
+
+    with col3:
         NHR = st.text_input('NHR')
 
-    with col1:
+    with col4:
         HNR = st.text_input('HNR')
 
-    with col2:
+    with col1:
         RPDE = st.text_input('RPDE')
 
-    with col3:
+    with col2:
         DFA = st.text_input('DFA')
 
-    with col4:
+    with col3:
         spread1 = st.text_input('spread1')
 
-    with col5:
+    with col4:
         spread2 = st.text_input('spread2')
 
     with col1:
@@ -278,7 +278,7 @@ if selected == "Liver Disease Prediction":
         age = st.text_input('Age')
 
     with col2:
-        gender = st.text_input('Gender')
+        gender = st.text_input('Gender: 1 male 0 female')
 
     with col3:
         blb = st.text_input('Total_Bilirubin')
@@ -405,7 +405,7 @@ if selected == "Kidney Disease Prediction":
         cad = st.text_input('cad')
 
     with col2:
-        appet = st.text_input('appet'),
+        appet = st.text_input('appet')
         
     with col3:
         
@@ -434,10 +434,10 @@ if selected == "Kidney Disease Prediction":
 
             kidney_prediction = kidney_model.predict([user_input])
 
-            if kidney_prediction[0] == 1:
-                kidney_diagnosis = "The person has kidney disease"
+            if kidney_prediction[0] == 0:
+                kidney_diagnosis = "The person has not kidney disease"
             else:
-                kidney_diagnosis = "The person does not have kidney disease"
+                kidney_diagnosis = "The person have kidney disease"
 
     st.success(kidney_diagnosis)
 
@@ -446,73 +446,42 @@ if selected == "Thyroid Disease Prediction":
     # page title
     st.title("Thyroid Disease Prediction Prediction Prediction using ML")
     
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3 = st.columns(3)
 
     with col1:
         age = st.text_input('age')
 
     with col2:
-        sex = st.text_input('sex')
+        sex = st.text_input('sex: 1 male 0 female')
+
 
     with col3:
-        on_thyroxine = st.text_input('on thyroxine')
-
-    with col4:
-        query_on_thyroxine = st.text_input('query on thyroxine')
-
-    with col1:
-        on_antithyroid_medication = st.text_input('on antithyroid medication')
-
-    with col2:
-        sick = st.text_input('sick')
-
-    with col3:
-        pregnant = st.text_input('pregnant')
-
-    with col4:
-        thyroid_surgery = st.text_input('thyroid surgery')
-
-    with col1:
-        Shimmer = st.text_input('ba')
-
-    with col2:
-        I131_treatment = st.text_input('I131 treatment')
-
-    with col3:
-        query_hypothyroid = st.text_input('query hypothyroid')
-
-    with col4:
-        query_hyperthyroid = st.text_input('query hyperthyroid')
-
-    with col1:
         lithium = st.text_input('lithium')
 
-    with col2:
-        goitre = st.text_input('goitre')
-
-    with col3:
-        tumor = st.text_input('tumor')
-
-    with col4:
-        hypopituitary = st.text_input('hypopituitary')
 
     with col1:
-        psych = st.text_input('psych')
+        tumor = st.text_input('tumor')
 
     with col2:
-        TSH = st.text_input('TSH')
+        hypopituitary = st.text_input('hypopituitary')
 
     with col3:
+        psych = st.text_input('psych')
+
+    with col1:
+        TSH = st.text_input('TSH')
+
+    with col2:
         T3 = st.text_input('T3')
 
-    with col4:
+    with col3:
         TT4 = st.text_input('TT4')
 
     with col1:
         T4U = st.text_input('T4U')
 
     with col2:
-        FTI = st.text_input('FTI'),
+        FTI = st.text_input('FTI')
  
     # code for Prediction
     thyroid_diagnosis = ''
@@ -520,8 +489,7 @@ if selected == "Thyroid Disease Prediction":
     # creating a button for Prediction    
     if st.button("Thyroid's Test Result"):
 
-        user_input = [age,sex,on_thyroxine,query_on_thyroxine,on_antithyroid_medication,sick,pregnant,thyroid_surgery,Shimmer,
-                      I131_treatment,query_hypothyroid,query_hyperthyroid,lithium,goitre,tumor, hypopituitary,psych,TSH,T3,TT4,T4U,FTI]
+        user_input = [age,sex,lithium,tumor,hypopituitary,psych,TSH,T3,TT4,T4U,FTI]
         
         empty_inputs = [index for index, value in enumerate(user_input) if value is None or value == '']
         
